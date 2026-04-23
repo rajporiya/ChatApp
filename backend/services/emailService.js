@@ -1,12 +1,16 @@
 const nodemailer = require("nodemailer");
-const dotenv = require('dotenv')
+const dotenv = require("dotenv");
+
+dotenv.config();
+
+const emailUser = process.env.EMAIL_USER || process.env.EMIAL_USER;
 
 // Create a transporter using SMTP
 const transporter = nodemailer.createTransport({
-    service : gmail,
-    auth : {
-        user:process.env.EMIAL_USER, 
-        pass:process.env.EMAIL_PASS
+    service: "gmail",
+    auth: {
+        user: emailUser,
+        pass: process.env.EMAIL_PASS,
     },
 });
 
@@ -38,7 +42,7 @@ const sendOtpTOEmail = async(email, otp)=>{
     border-radius: 5px;
     letter-spacing: 3px;
   ">
-    ${{otp}}
+    ${otp}
   </h1>
   
   <p>
@@ -63,12 +67,12 @@ const sendOtpTOEmail = async(email, otp)=>{
     `
 
     await transporter.sendMail({
-        from :`whatsApp web < ${process.env.EMIAL_USER}`,
-        to:email,
-        subject : "To Your whatsapp verification code",
+        from: `whatsApp web <${emailUser}>`,
+        to: email,
+        subject: "To Your whatsapp verification code",
         html,
-    })
-}
+    });
+};
 
 
 module.exports = sendOtpTOEmail;

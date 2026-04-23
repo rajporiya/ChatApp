@@ -1,5 +1,9 @@
 const mongoose = require('mongoose');
 
+const validateEmail = function (email) {
+    if (!email) return true;
+    return /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email);
+};
 
 const userSchem = mongoose.Schema({
     phoneNumber : {
@@ -48,5 +52,5 @@ const userSchem = mongoose.Schema({
     }
 }, {Timestamp : true})
 
-const User = mongoose.mongo.model("User", userSchem)
+const User = mongoose.model("User", userSchem)
 module.exports = User

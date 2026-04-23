@@ -8,7 +8,7 @@ const serviceSid = process.env.TWILLO_SERVICE_SID;
 const client = twilio(accountId, authToken);
 
 // send otp to number
-const sendOtp = async (phoneNumber) => {
+const sendOtpToPhoneNumber = async (phoneNumber) => {
   try {
     console.log("sending otp in number");
     if (!phoneNumber) {
@@ -46,6 +46,6 @@ const verifyOtp = async (phoneNumber, otp) => {
 };
 
 module.exports =  {
-    sendOtp,
+    sendOtpToPhoneNumber,
     verifyOtp
 }
