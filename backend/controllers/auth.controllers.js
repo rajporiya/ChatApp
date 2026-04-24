@@ -4,6 +4,7 @@ const otpGenerate = require("../utills/otpGenerator");
 const responce = require("../utills/responseHandler");
 const twilloService = require("../services/twiiloService.js");
 const generateToken = require("../utills/generateToken.js");
+const { uploadFileToCloudinary } = require("../config/cloudinaryConfig.js");
 // step -1 send otp
 const sendOtp = async (req, res) => {
   const { phoneNumber, phoneSuffix, email } = req.body;
@@ -102,11 +103,19 @@ const updateProfile = async (req,res)=>{
     const user = User.findById(userId)
     const file = req.file
     if(file){
-      const uploadResult = 
-      user.profilePicture 
+      const uploadResult = await uploadFileToCloudinary(file);
+      user.profilePicture =uploadResult?.secure_url
+    }else if(req.body.profilePicture){
+      user.profilePicture = req.body.profilePicture;
     }
+    if(userName) user.userName = userName;
+    if(agreed) user.agreed = agreed
+    if(about) user.about = about
+    await user.save()
+    return responce(res,200, 'User Profile upadted successfully')
   } catch (error) {
-    
+    console.log(error);
+    return responce(res, 500, "Internal server error");
   }
 }
 
