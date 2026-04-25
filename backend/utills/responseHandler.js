@@ -1,4 +1,4 @@
-const responce = (res,statusCode, message, data=null) => {
+const responce = (res,statusCode, message, data) => {
     if(!res){
         console.error('Responce object is null');
         return ;
